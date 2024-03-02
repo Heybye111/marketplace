@@ -17,6 +17,7 @@ public class OrderTest {
     Client client;
     Item IphoneSE;
     Order order;
+    Item Xiaomi;
 
 
     @BeforeEach
@@ -24,6 +25,7 @@ public class OrderTest {
         client = new Client(1, "Petr");
         IphoneSE = catalog.getItemById(1);
         order = new Order(client.getId(), client);
+        Xiaomi = catalog.getItemById(2);
     }
 
     @Test
@@ -44,4 +46,26 @@ public class OrderTest {
         assertEquals(order.getTotalPrice(), IphoneSE.getPrice() * (1 - PromoCodes.HAPPY_HOUR.getDiscount()));
         assertTrue(order.isDiscountApplied());
     }
+    @Test
+    @DisplayName("Проверка применения скидки на нескольких товарах")
+    public void applyDiscountOnManyItems() {
+        order.addItem(IphoneSE);
+        order.addItem(Xiaomi);
+        assertFalse(order.isDiscountApplied());
+        order.applyDiscount(PromoCodes.HAPPY_HOUR.getDiscount());
+        assertEquals(order.getTotalPrice(), (IphoneSE.getPrice() + Xiaomi.getPrice()) * (1 - PromoCodes.HAPPY_HOUR.getDiscount()));
+        assertTrue(order.isDiscountApplied());
+    }
+
+
+    @Test
+    @DisplayName("Проверка финальной цены")
+    public void checkTotalPrice() {}
+
+    @Test
+    @DisplayName("Проверка что скидка автоматически не применена ")
+    public void checkDiscount() {
+    }
+
+
 }
