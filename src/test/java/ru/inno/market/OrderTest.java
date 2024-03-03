@@ -116,33 +116,5 @@ public class OrderTest {
         assertEquals(0, order.getTotalPrice());
     }
 
-//    @Test
-//    @DisplayName("Проверка что все предметы из каталога можно добавить в заказ")
-//    public void isAllItemsCanBeAddedToOrder() throws {
-//        catalog.getAllItems();
-//        order.addItem(catalog.getItemById());
-//
-//
-//    }
-
-
-//    @Test
-//    @DisplayName("Проверка что нельзя положить товаров больше чем их в наличии")
-//    void cantAddMoreThenExists() {
-//
-//        assertEquals(5, catalog.getCountForItem(IphoneSE));
-//
-//        int countOfItems = catalog.getCountForItem(IphoneSE);
-//
-//        order.addItem(IphoneSE);
-//
-//    }
-
-//    @Test
-//    @DisplayName("dasd")
-//    void smf() {
-//        catalog.getAllItems();
-//    }
-
 
 }
