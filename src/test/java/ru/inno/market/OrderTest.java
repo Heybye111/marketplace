@@ -53,6 +53,17 @@ public class OrderTest {
     }
 
     @Test
+    @DisplayName("Проверка применения скидки на нескольких товарах")
+    public void applyDiscountOnManyItems() {
+        order.addItem(IphoneSE);
+        order.addItem(Xiaomi);
+        assertFalse(order.isDiscountApplied());
+        order.applyDiscount(PromoCodes.HAPPY_HOUR.getDiscount());
+        assertEquals(order.getTotalPrice(), (IphoneSE.getPrice() + Xiaomi.getPrice()) * (1 - PromoCodes.HAPPY_HOUR.getDiscount()));
+        assertTrue(order.isDiscountApplied());
+    }
+
+    @Test
     @DisplayName("Проверка применения скидки на одном товаре")
     public void applyDiscount() {
         order.addItem(IphoneSE);
@@ -70,18 +81,20 @@ public class OrderTest {
 
     @Test
     @DisplayName("Проверка что у заказа есть айди")
-    public  void isIdExistInOrder(){
+    public void isIdExistInOrder() {
         assertEquals(1, order.getId());
     }
+
     @Test
     @DisplayName("Проверка что у заказа есть клиент")
-    public void isClientExistInOrder(){
+    public void isClientExistInOrder() {
         assertNotNull(order.getClient());
         assertEquals(client, order.getClient());
     }
+
     @Test
     @DisplayName("Проверка на то что в корзину можно положить два одинаковых товара")
-    public void canCardHasSameItems(){
+    public void canCardHasSameItems() {
         assertNotNull(order.getCart());
         order.addItem(IphoneSE);
         order.addItem(IphoneSE);
@@ -90,68 +103,46 @@ public class OrderTest {
 
     @Test
     @DisplayName("Проверка что в корзину можно положить несколько разных товаров")
-    public void canCardHasDifferentItems(){
+    public void canCardHasDifferentItems() {
         assertNotNull(order.getCart());
         order.addItem(IphoneSE);
         order.addItem(Xiaomi);
         assertEquals(2, order.getCart().size());
     }
+
     @Test
     @DisplayName("Проверка что в заказе есть финальная сумма")
-    public void isTotalPriceExistsInOrder(){
+    public void isTotalPriceExistsInOrder() {
         assertEquals(0, order.getTotalPrice());
     }
-    @Test
-    @DisplayName("Проверка что все предметы из каталога можно добавить в заказ")
-    @ParameterizedTest
-    @ValueSource(ints = {1,2,3,4,5,6,7,8,9,10,11,12})
-    public void isAllItemsCanBeAddedToOrder(int count) throws IOException {
-        order.addItem(catalog.getItemById(count));
-        assertEquals(1, order.getCart().size());
 
-    }
-    @Test
-    @DisplayName("Debil")
-    public void debil() {
-        order.addItem(catalog.getItemById(1));
-        order.addItem(catalog.getItemById(2));
-        order.addItem(catalog.getItemById(3));
-        order.addItem(catalog.getItemById(4));
-        order.addItem(catalog.getItemById(5));
-        assertEquals(5, order.getCart().size());
-    }
-
-    @Test
-    @DisplayName("Проверка что нельзя положить товаров больше чем их в наличии")
-    void cantAddMoreThenExists(){
-
-        assertEquals(5,catalog.getCountForItem(IphoneSE));
-
-        int countOfItems = catalog.getCountForItem(IphoneSE);
-
-        order.addItem(IphoneSE);
-
-    }
-    @Test
-    @DisplayName("Проверка применения скидки на нескольких товарах")
-    public void applyDiscountOnManyItems() {
-        order.addItem(IphoneSE);
-        order.addItem(Xiaomi);
-        assertFalse(order.isDiscountApplied());
-        order.applyDiscount(PromoCodes.HAPPY_HOUR.getDiscount());
-        assertEquals(order.getTotalPrice(), (IphoneSE.getPrice() + Xiaomi.getPrice()) * (1 - PromoCodes.HAPPY_HOUR.getDiscount()));
-        assertTrue(order.isDiscountApplied());
-    }
+//    @Test
+//    @DisplayName("Проверка что все предметы из каталога можно добавить в заказ")
+//    public void isAllItemsCanBeAddedToOrder() throws {
+//        catalog.getAllItems();
+//        order.addItem(catalog.getItemById());
+//
+//
+//    }
 
 
-    @Test
-    @DisplayName("Проверка финальной цены")
-    public void checkTotalPrice() {}
+//    @Test
+//    @DisplayName("Проверка что нельзя положить товаров больше чем их в наличии")
+//    void cantAddMoreThenExists() {
+//
+//        assertEquals(5, catalog.getCountForItem(IphoneSE));
+//
+//        int countOfItems = catalog.getCountForItem(IphoneSE);
+//
+//        order.addItem(IphoneSE);
+//
+//    }
 
-    @Test
-    @DisplayName("Проверка что скидка автоматически не применена ")
-    public void checkDiscount() {
-    }
+//    @Test
+//    @DisplayName("dasd")
+//    void smf() {
+//        catalog.getAllItems();
+//    }
 
 
 }

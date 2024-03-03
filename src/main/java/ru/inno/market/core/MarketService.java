@@ -16,7 +16,8 @@ public class MarketService {
     }
 
     public int createOrderFor(Client client){
-        int id = orderCounter++;
+        int id = ++orderCounter;
+        //Сначала добавляем к orderCounter один, так как айди заказа не может быть 0
         Order order = new Order(id, client);
         orders.put(id, order);
 
