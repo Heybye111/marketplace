@@ -21,9 +21,9 @@ public class OrderTest {
 
     Catalog catalog;
     Client client;
-    Item IphoneSE;
+    Item iphoneSE;
     Order order;
-    Item Xiaomi;
+    Item xiaomi;
 
 
     @BeforeEach
@@ -32,21 +32,21 @@ public class OrderTest {
         //Для каждого теста создаем новый каталог
         client = new Client(1, "Petr");
         //Для каждого теста создаем нового клиента
-        IphoneSE = catalog.getItemById(1);
+        iphoneSE = catalog.getItemById(1);
         //Создаем переменную в которой будет лежать первый элемент из каталога
         order = new Order(client.getId(), client);
         // Создаем новый заказ
-        Xiaomi = catalog.getItemById(2);
+        xiaomi = catalog.getItemById(2);
     }
 
     @Test
     @DisplayName("Проверка метода по добавлению товара в заказ")
     public void addItem() {
-        order.addItem(IphoneSE);
+        order.addItem(iphoneSE);
         // В заранее созданный новый заказ добавляем вещь из каталога
-        assertEquals(order.getCart().get(IphoneSE), 1);
+        assertEquals(order.getCart().get(iphoneSE), 1);
         // Проверяем что в заказе 1 товар
-        assertEquals(order.getTotalPrice(), IphoneSE.getPrice());
+        assertEquals(order.getTotalPrice(), iphoneSE.getPrice());
         // Проверяем что в общая стоимость равна стоимости товара так как он был один в заказе
         assertEquals(1, order.getCart().size());
         // Проверяем что в заказе 1 товар, так как мы добавили только один
@@ -55,24 +55,24 @@ public class OrderTest {
     @Test
     @DisplayName("Проверка применения скидки на нескольких товарах")
     public void applyDiscountOnManyItems() {
-        order.addItem(IphoneSE);
-        order.addItem(Xiaomi);
+        order.addItem(iphoneSE);
+        order.addItem(xiaomi);
         assertFalse(order.isDiscountApplied());
         order.applyDiscount(PromoCodes.HAPPY_HOUR.getDiscount());
-        assertEquals(order.getTotalPrice(), (IphoneSE.getPrice() + Xiaomi.getPrice()) * (1 - PromoCodes.HAPPY_HOUR.getDiscount()));
+        assertEquals(order.getTotalPrice(), (iphoneSE.getPrice() + xiaomi.getPrice()) * (1 - PromoCodes.HAPPY_HOUR.getDiscount()));
         assertTrue(order.isDiscountApplied());
     }
 
     @Test
     @DisplayName("Проверка применения скидки на одном товаре")
     public void applyDiscount() {
-        order.addItem(IphoneSE);
+        order.addItem(iphoneSE);
         // Добавляем заказ 1 товар из каталога
         assertFalse(order.isDiscountApplied());
         // Проверяем что в заказе нет скидки
         order.applyDiscount(PromoCodes.HAPPY_HOUR.getDiscount());
         // Добавляем скидку
-        assertEquals(order.getTotalPrice(), IphoneSE.getPrice() * (1 - PromoCodes.HAPPY_HOUR.getDiscount()));
+        assertEquals(order.getTotalPrice(), iphoneSE.getPrice() * (1 - PromoCodes.HAPPY_HOUR.getDiscount()));
         // Проверяем что цена товара соответствует цене с примененной скидкой
         assertTrue(order.isDiscountApplied());
         // Проверяем что скидка применена
@@ -96,17 +96,17 @@ public class OrderTest {
     @DisplayName("Проверка на то что в корзину можно положить два одинаковых товара")
     public void canCardHasSameItems() {
         assertNotNull(order.getCart());
-        order.addItem(IphoneSE);
-        order.addItem(IphoneSE);
-        assertEquals(2, order.getCart().get(IphoneSE));
+        order.addItem(iphoneSE);
+        order.addItem(iphoneSE);
+        assertEquals(2, order.getCart().get(iphoneSE));
     }
 
     @Test
     @DisplayName("Проверка что в корзину можно положить несколько разных товаров")
     public void canCardHasDifferentItems() {
         assertNotNull(order.getCart());
-        order.addItem(IphoneSE);
-        order.addItem(Xiaomi);
+        order.addItem(iphoneSE);
+        order.addItem(xiaomi);
         assertEquals(2, order.getCart().size());
     }
 
